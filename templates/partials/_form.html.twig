@@ -1,0 +1,25 @@
+   <div class="container mt-5 w-50">
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+<div class="mb-3">
+    {{ form_label(form.title, 'Veuillez saisir le titre', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.title) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.text, 'Veuillez saisir le texte', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.text, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.text) }}
+</div>
+
+<div class="mb-3">
+    {{ form_widget(form.extraPrivacy, {'attr': {'class': 'form-check-input text-dark'}}) }}
+    {{ form_label(form.extraPrivacy, "Je veux plus d'intimité", {'label_attr': {'class': 'form-check-label'}}) }}
+</div>
+<p class="text-muted mb-4">Ce message ne peut être vu que par les personnes que vous suivez.</p>
+
+<div class="mb-3">
+    <button type="submit" class="btn btn-dark">Enregistré</button>
+</div>
+{{ form_end(form) }}
+</div>
