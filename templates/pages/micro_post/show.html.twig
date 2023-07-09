@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+
+
+    {% block title %}
+	SocialMedia -
+	{# {{ microPost.id }} #}
+
+
+{% endblock %}
+
+
+{% block body %}  
+    <div class="container">
+
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success mt-4">
+				{{ message }}
+			</div>
+		{% endfor %}
+
+		<h1 class="mt-4">{{ microPost.title }}</h1>
+
+
+		<div class="mt-4">
+					{{ microPost.text }}</p>
+		</div>
+
+		<div> 
+			<span class="badge bg-primary bg-dark">Créée le
+				{{ microPost.createdAt|date('d/m/Y') }}</span>
+		</div>
+
+	</div>
+
+{% endblock %}
