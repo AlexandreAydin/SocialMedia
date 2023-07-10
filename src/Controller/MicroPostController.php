@@ -2,13 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\MicroPost;
+use App\Entity\User;
+use App\Entity\UserProfile;
+use App\Form\CommentType;
 use App\Form\MicroPostType;
 use App\Repository\MicroPostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\Routing\Annotation\Route;
 
 class MicroPostController extends AbstractController
@@ -16,16 +21,17 @@ class MicroPostController extends AbstractController
     #[Route('/micro-post', name: 'app_micro_post', methods:['GET'])]
     public function index(MicroPostRepository $posts): Response
     {
+    
         return $this->render('pages/micro_post/index.html.twig', [
-            'posts' => $posts->findAll(),
+            'posts' => $posts->findAllWithComments(),
         ]);
     }
 
     #[Route('/micro-post/{id}', name: 'app_micro_post_show', methods: ['GET','POST'])]
-    public function show(MicroPost $microPost): Response
+    public function show(MicroPost $post): Response
     {
         return $this->render('pages/micro_post/show.html.twig',[
-            "microPost" => $microPost
+            "post" => $post
         ]);
     }
 
@@ -34,15 +40,15 @@ class MicroPostController extends AbstractController
     #[Route('micro-post/ajouter', name:'app_micro_post_add', methods:['GET','POST'])]
     public function micro_post_add(Request $request, EntityManagerInterface $manager) : Response
     {
-        $microPost = new MicroPost;
+        $post = new MicroPost;
 
-        $form = $this->createForm(MicroPostType::class,$microPost);
+        $form = $this->createForm(MicroPostType::class,$post);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() &&  $form->isValid()){
-            $microPost= $form->getData();
+            $post= $form->getData();
             
-            $manager->persist($microPost);
+            $manager->persist($post);
             $manager->flush();
 
             /** Oublie pas de l'ajouter dans la vue twig */
@@ -61,17 +67,17 @@ class MicroPostController extends AbstractController
     }
 
     #[Route('micro-post/{id}/edit', name:'app_micro_post_edit', methods:['GET','POST'])]
-    public function micro_post_edit(MicroPost $microPost, 
+    public function micro_post_edit(MicroPost $post, 
     Request $request,
     EntityManagerInterface $manager): Response
     {
-        $form = $this->createForm(MicroPostType::class,$microPost);
+        $form = $this->createForm(MicroPostType::class,$post);
 
         $form->handleRequest($request);
         if ($form->isSubmitted()&&$form->isValid()){
-            $microPost= $form->getData();
+            $post= $form->getData();
             
-            $manager->persist($microPost);
+            $manager->persist($post);
             $manager->flush();
 
 
@@ -85,15 +91,16 @@ class MicroPostController extends AbstractController
         }
 
         return $this->render('pages/micro_post/edit.html.twig',[
-            'form'=> $form->createView()
+            'form'=> $form->createView(),
+            'post'=> $post
         ]);
  
     }
 
     #[Route('micro-post/{id}/suppression', 'app_micro_post_delete', methods:['GET'] )]
-    public function micro_post_delete(EntityManagerInterface $manager, MicroPost $microPost): Response
+    public function micro_post_delete(EntityManagerInterface $manager, MicroPost $post): Response
     {
-        $manager->remove($microPost);
+        $manager->remove($post);
         $manager->flush();
 
         $this->addFlash(
@@ -102,6 +109,40 @@ class MicroPostController extends AbstractController
         );
 
         return $this->redirectToRoute('app_home');
+    }
+
+
+    #[Route('micro-post/{id}/comment', name:'app_micro_post_comment', methods:['GET','POST'])]
+    public function add_comment(MicroPost $post, 
+    Request $request,
+    EntityManagerInterface $manager): Response
+    {
+        $form = $this->createForm(CommentType::class,new Comment());
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&&$form->isValid()){
+            $comment= $form->getData();
+            $comment->setPost($post);
+            
+            $manager->persist($comment);
+            $manager->flush();
+
+
+            $this->addFlash(
+                'success',
+                'Votre post à bient été mise à jour'
+            );
+
+            return $this->redirectToRoute('app_micro_post_show', ['id' => $post->getId()]);
+
+
+        }
+
+        return $this->render('pages/micro_post/comment.html.twig',[
+            'form'=> $form->createView(),
+            'post' => $post
+        ]);
+ 
     }
 
 }

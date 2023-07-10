@@ -1,0 +1,13 @@
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-4">
+  {% if posts|length > 0 %}
+    {% for post in posts %}
+      <div class="col">
+        {{ include('pages/micro_post/_post.html.twig', {post: post}) }}
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="col">
+      There's nothing here yet!
+    </div>
+  {% endif %}
+</div>

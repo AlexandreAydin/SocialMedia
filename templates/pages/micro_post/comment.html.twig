@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Post - Ajouter commentaire{% endblock %}
+
+{% block bread %}
+→ <a href="{{ path('app_micro_post_show', {id: post.id}) }}" class='text-decoration-none text-dark'>Post</a> → Comment
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        {{ include('pages/micro_post/_post.html.twig', {post: post}) }}
+
+
+        {{ form_start(form) }}
+        <div>{{ form_errors(form)}}</div>
+
+        <div class="form-group">
+            {{ form_label(form.text, 'Veuillez saisir le commentaire', {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}}) }}
+            {{ form_widget(form.text, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.text) }}
+        </div>
+
+        <div class="form-group mt-4">
+            <button type="submit" class="btn btn-primary bg-dark">Ajouter le commentaire</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

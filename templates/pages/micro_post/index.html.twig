@@ -6,7 +6,7 @@
 
 {% block body %}  
     <div class="container">
-        {% for message in app.flashes('success') %}
+        {# {% for message in app.flashes('success') %}
             <div class="alert alert-success mt-4">
                 {{ message }}
             </div>
@@ -33,5 +33,9 @@
         {% else %}
             <h4>Il n'y a pas de post</h4>
         {% endif %}
+        	{{ include('pages/micro_post/_post.html.twig', {post: post}) }} #}
+
+            {{ include ('pages/micro_post/_post_list.html.twig') }}
+            
     </div>
 {% endblock %}

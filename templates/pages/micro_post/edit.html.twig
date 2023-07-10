@@ -3,9 +3,9 @@
 {% block title %}Create New Post{% endblock %}
 
 {% block bread %}
-→ Add Post
+→ <a href="{{ path('app_micro_post_show', {id: post.id}) }}" class='text-decoration-none text-dark'>Post</a> → Edit
 {% endblock %}
 
 {% block body %}
-  {{ include ('partials/_form.html.twig') }}
+  {{ include ('pages/micro_post/_form.html.twig') }}
 {% endblock %}

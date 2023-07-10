@@ -10,27 +10,60 @@
 {% endblock %}
 
 
+{% block bread %}
+→ Post
+{% endblock %}
 {% block body %}  
-    <div class="container">
+    <div class="container mt-4">
 
-		{% for message in app.flashes('success') %}
+		{# {% for message in app.flashes('success') %}
 			<div class="alert alert-success mt-4">
 				{{ message }}
 			</div>
 		{% endfor %}
 
-		<h1 class="mt-4">{{ microPost.title }}</h1>
+		<h1 class="mt-4">{{ post.title }}</h1>
 
 
 		<div class="mt-4">
-					{{ microPost.text }}</p>
-		</div>
+					{{ post.text }}</p>
+		</div> #}
 
-		<div> 
+		{# <div> 
 			<span class="badge bg-primary bg-dark">Créée le
-				{{ microPost.createdAt|date('d/m/Y') }}</span>
-		</div>
+				{{ post.createdAt|date('d/m/Y') }}</span>
+		</div> #}
+
+		{{ include('pages/micro_post/_post.html.twig', {post: post}) }}
 
 	</div>
+
+<div class=" container mt-4">
+  {% for comment in post.comments %}
+    <div class="my-2">
+      <div class="d-flex align-items-center">
+        <div class="mr-2">
+          {# {{ include('shared/_avatar.html.twig', { profile: comment.author.userProfile, size: 8 }) }} #}
+        </div>
+        <div>
+          <div class="font-weight-medium text-dark">
+            <a href="#" class="text-decoration-none text-dark">
+             author
+            </a>
+          </div>
+          <div class="text-muted">{{ comment.createdAt | date("M j, Y")  }}</div>
+        </div>
+      </div>
+      <div class="d-flex">
+        <div class="ml-4 mr-6 pb-12 border {% if not loop.last %}border-light{% else %}border-0{% endif %}"></div>
+        <div>{{ comment.text }}</div>
+      </div>
+    </div>
+	<hr>
+  {% endfor %}
+</div>
+
+
+
 
 {% endblock %}
