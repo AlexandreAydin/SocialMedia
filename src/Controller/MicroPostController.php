@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
+
 
 class MicroPostController extends AbstractController
 {
@@ -28,6 +31,7 @@ class MicroPostController extends AbstractController
     }
 
     #[Route('/micro-post/{id}', name: 'app_micro_post_show', methods: ['GET','POST'])]
+    #[IsGranted(MicroPost::VIEW, 'post')]
     public function show(MicroPost $post): Response
     {
         return $this->render('pages/micro_post/show.html.twig',[
@@ -37,9 +41,11 @@ class MicroPostController extends AbstractController
 
 
     
-    #[Route('micro-post/ajouter', name:'app_micro_post_add', methods:['GET','POST'])]
+    #[Route('micro-post/ajouter', name:'app_micro_post_add',priority: 2)]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function micro_post_add(Request $request, EntityManagerInterface $manager) : Response
     {
+
         $post = new MicroPost;
 
         $form = $this->createForm(MicroPostType::class,$post);
@@ -47,6 +53,7 @@ class MicroPostController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() &&  $form->isValid()){
             $post= $form->getData();
+            $post->setAuthor($this->getUser());
             
             $manager->persist($post);
             $manager->flush();
@@ -67,6 +74,7 @@ class MicroPostController extends AbstractController
     }
 
     #[Route('micro-post/{id}/edit', name:'app_micro_post_edit', methods:['GET','POST'])]
+    #[IsGranted(MicroPost::EDIT, 'post')]
     public function micro_post_edit(MicroPost $post, 
     Request $request,
     EntityManagerInterface $manager): Response
@@ -86,7 +94,7 @@ class MicroPostController extends AbstractController
                 'Votre post à bient été mise à jour'
             );
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_micro_post');
 
         }
 
@@ -97,7 +105,7 @@ class MicroPostController extends AbstractController
  
     }
 
-    #[Route('micro-post/{id}/suppression', 'app_micro_post_delete', methods:['GET'] )]
+    #[Route('micro-post/{id}/suppression', name: 'app_micro_post_delete', methods:['GET'] )]
     public function micro_post_delete(EntityManagerInterface $manager, MicroPost $post): Response
     {
         $manager->remove($post);
@@ -113,6 +121,7 @@ class MicroPostController extends AbstractController
 
 
     #[Route('micro-post/{id}/comment', name:'app_micro_post_comment', methods:['GET','POST'])]
+    #[IsGranted('ROLE_COMMENTER')]
     public function add_comment(MicroPost $post, 
     Request $request,
     EntityManagerInterface $manager): Response
@@ -123,6 +132,8 @@ class MicroPostController extends AbstractController
         if ($form->isSubmitted()&&$form->isValid()){
             $comment= $form->getData();
             $comment->setPost($post);
+            $comment->setAuthor($this->getUser());
+
             
             $manager->persist($comment);
             $manager->flush();

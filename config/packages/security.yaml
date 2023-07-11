@@ -16,7 +16,11 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-
+            form_login: 
+                login_path: app_login
+                check_path: app_login
+            logout:
+                path: app_logout
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -28,6 +32,11 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_EDITOR]
+        ROLE_EDITOR: [ROLE_COMMENTER]
+        ROLE_COMMENTER: [ROLE_USER]
 
 when@test:
     security:
@@ -41,3 +50,4 @@ when@test:
                 cost: 4 # Lowest possible value for bcrypt
                 time_cost: 3 # Lowest possible value for argon
                 memory_cost: 10 # Lowest possible value for argon
+
