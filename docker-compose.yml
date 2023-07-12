@@ -18,4 +18,9 @@ services:
 volumes:
 ###> doctrine/doctrine-bundle ###
   database_data:
+  mailer:
+    image: schickling/mailcatcher
+    ports:
+      -1080-1080
+      -1025-1025
 ###< doctrine/doctrine-bundle ###

@@ -42,7 +42,7 @@ class MicroPostController extends AbstractController
 
     
     #[Route('micro-post/ajouter', name:'app_micro_post_add',priority: 2)]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('ROLE_WRITTER')]
     public function micro_post_add(Request $request, EntityManagerInterface $manager) : Response
     {
 
