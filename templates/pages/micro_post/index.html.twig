@@ -11,34 +11,6 @@
 				{{ message }}
 			</div>
 		{% endfor %}
-        {# {% for message in app.flashes('success') %}
-            <div class="alert alert-success mt-4">
-                {{ message }}
-            </div>
-        {% endfor %}
-
-        {% if posts is not empty %}
-            {% for post in posts %}
-                <h4 class="mt-4">
-                    <a class='text-dark text-decoration-none' href="{{ path('app_micro_post_show',{id : post.id } )}}">
-                        {{ post.title }}
-                    </a>
-                </h4>
-
-                <div class="mt-4">
-                    {{ post.text }}</p>
-                </div>
-
-                <div> 
-                    <span class="badge bg-primary bg-dark">Créée le
-                        {{ post.createdAt|date('d/m/Y') }}</span>
-                </div>  
-                <hr>      
-            {% endfor %}
-        {% else %}
-            <h4>Il n'y a pas de post</h4>
-        {% endif %}
-        	{{ include('pages/micro_post/_post.html.twig', {post: post}) }} #}
 
             {{ include ('pages/micro_post/_post_list.html.twig') }}
             

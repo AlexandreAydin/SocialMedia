@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block bread %}
+→ Profile d'utilisateur
+{% endblock %}
+
+{% block body %}
+ {% include 'pages/profile/_profile_header.html.twig' %}
+ {# permet d'affiché post follow et followers #}
+{{ include ('pages/profile/_profile_tabs.html.twig') }}
+{# permet d'affiché uniqument ce que l'utilisteur a posté  #}
+<div class="container">
+{{ include ('pages/micro_post/_post_list.html.twig', { posts: user.posts }) }} 
+</div>
+{% endblock %}

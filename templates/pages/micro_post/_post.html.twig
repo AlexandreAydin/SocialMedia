@@ -11,12 +11,18 @@
         {{ post.createdAt|date('d/m/Y') }}
   </div>
   <div>
-    <a href="#" class="text-decoration-none text-dark">
-      Like <span class="px-2 rounded-md bg-gray-200 dark:bg-gray-700 text-decoration-none text-dark">{{ post.likedBy.count }}</span>
-    </a>
+    {% if post.likedBy.contains(app.user) %}
+      <a href="{{ path('app_unlike', { id: post.id }) }}" class="text-decoration-none text-dark">
+        Unlike <span class="px-2 rounded-md bg-gray-200 dark:bg-gray-700">{{ post.likedBy.count }}</span>
+      </a>
+    {% else %}
+      <a href="{{ path('app_like', { id: post.id }) }}" class="text-decoration-none text-dark">
+        Like <span class="px-2 rounded-md bg-gray-200 dark:bg-gray-700">{{ post.likedBy.count }}</span>
+      </a>
+    {% endif %}
   </div>
   <div class="text-sm text-gray-500 dark:text-gray-400 ">
-    <a href="#" class="text-decoration-none text-dark">{{ post.author.email }}</a>
+    <a href="{{path('app_profile',  { id: post.author.id })}}" class="text-decoration-none text-dark">{{ post.author.email }}</a>
   </div>
   <div class="flex">
     <a href="{{ path('app_micro_post_edit', { 'id': post.id }) }}" class="mr-2 text-decoration-none text-dark">Edit</a>

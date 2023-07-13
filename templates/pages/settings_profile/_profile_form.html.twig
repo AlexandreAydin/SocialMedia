@@ -1,0 +1,33 @@
+
+    {{ form_label(form.name, 'Votre Nom') }}
+    {{ form_widget(form.name, {'attr': {'class': 'form-control mb-2'}}) }}
+
+    {{ form_label(form.bio, 'Bio')}}
+    {{ form_widget(form.bio, {'attr': {'class': 'form-control mb-2'}}) }}
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            {{ form_label(form.twitterUsername, 'nom d\'utilisateur Twitter') }}
+            {{ form_widget(form.twitterUsername, {'attr': {'class': 'form-control mb-2'}}) }}
+        </div>
+
+        <div class="col-md-6">
+            {{ form_label(form.websiteUrl, 'Website URL') }}
+            {{ form_widget(form.websiteUrl, {'attr': {'class': 'form-control mb-2'}}) }}
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            {{ form_label(form.company, 'Enreprise')}}
+            {{ form_widget(form.company, {'attr': {'class': 'form-control mb-2'}}) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_label(form.location, 'Lieux') }}
+            {{ form_widget(form.location, {'attr': {'class': 'form-control mb-2'}}) }}
+        </div>
+    </div>
+
+    {{ form_label(form.dateOfBirth, 'Date de naissance') }}
+    {{ form_widget(form.dateOfBirth, {'attr': {'class': 'form-control mb-2'}}) }}
+

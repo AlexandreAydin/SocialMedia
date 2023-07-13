@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile Settings{% endblock %}
+
+{% block bread %}
+→ Profile Settings
+{% endblock %}
+
+{% block body %}
+    {# {{ include('settings_profile/_settings_profile_tabs.html.twig') }} #}
+
+    <div class="container mt-4 w-50">
+        {{ form_start(form) }}
+            {{ include ('pages/settings_profile/_profile_form.html.twig') }}
+
+            <div>
+                <button type="submit" class="btn btn-primary btn-block mt-4 mb-2 bg-dark">Enregistré</button>
+            </div>
+        {{ form_end(form) }}
+    </div> 
+{% endblock %}

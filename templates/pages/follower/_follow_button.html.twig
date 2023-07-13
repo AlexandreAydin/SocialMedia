@@ -1,0 +1,13 @@
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+  {% if app.user.follows is defined and not app.user.follows.contains(userToFollow) %}
+    <a href="{{ path('app_follow', { id: userToFollow.id }) }}"
+      class="btn btn-outline-dark rounded-md px-4 py-2 border-dark  my-link-dark  ">
+      Follow
+    </a>
+  {% else %}
+    <a href="{{ path('app_unfollow', { id: userToFollow.id }) }}"
+      class="btn btn-dark rounded-md px-4 py-2">
+      Unfollow
+    </a>
+  {% endif %}
+{% endif %}

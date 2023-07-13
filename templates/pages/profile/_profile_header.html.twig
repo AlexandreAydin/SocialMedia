@@ -1,0 +1,33 @@
+<div class="d-flex align-items-center container">
+    <div>
+        {# <div class="mb-2">
+            {{ include('shared/_avatar.html.twig', { profile: user.userProfile, size: 32 }) }}
+        </div> #}
+        <div class="h2">{{ user.userProfile.name ?? user.email }}</div>
+        <div class="text-lg text-gray-500 dark:text-gray-400 font-weight-normal">{{ user.email }}</div>
+
+        {% if user.userProfile != null %}
+            <div class="h5 text-gray-800 dark:text-gray-400 font-weight-normal">
+                {{ user.userProfile.bio ?? 'Pas de bio' }}
+            </div>
+
+            <div class="d-flex">
+                <div class="fs-8 text-gray-500 dark:text-gray-400 font-weight-normal">
+                    <i class="bi bi-geo-fill align-middle"></i>
+                    {{ user.userProfile.location ?? 'Unknown' }}
+                </div>
+                <div class="fs-8 text-gray-500 dark:text-gray-400 font-weight-normal ml-4 ms-2">
+                    <i class="bi bi-calendar-fill align-middle"></i>
+                    {% if user.userProfile.dateOfBirth %}
+                        {{ user.userProfile.dateOfBirth | date("j M, Y") }}
+                    {% else %}
+                        Unknown
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="ms-auto">
+        {{ include('pages/follower/_follow_button.html.twig', { userToFollow: user }) }}
+    </div> 
+</div>

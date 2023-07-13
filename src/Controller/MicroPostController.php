@@ -4,8 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\MicroPost;
-use App\Entity\User;
-use App\Entity\UserProfile;
 use App\Form\CommentType;
 use App\Form\MicroPostType;
 use App\Repository\MicroPostRepository;
