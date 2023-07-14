@@ -39,18 +39,11 @@ class MicroPost
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    // #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, orphanRemoval: true)]
-    // private Collection $comments;
-
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, orphanRemoval: true)]
     private $comments;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'liked')]
     private Collection $likedBy;
-
-    // #[ORM\ManyToOne(inversedBy: 'post')]
-    // #[ORM\JoinColumn(nullable: false)]
-    // private ?User $author = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]

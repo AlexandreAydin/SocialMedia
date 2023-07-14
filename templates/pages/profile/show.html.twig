@@ -12,6 +12,6 @@
 {{ include ('pages/profile/_profile_tabs.html.twig') }}
 {# permet d'affiché uniqument ce que l'utilisteur a posté  #}
 <div class="container">
-{{ include ('pages/micro_post/_post_list.html.twig', { posts: user.posts }) }} 
+{{ include ('pages/micro_post/_post_list.html.twig', { posts:posts }) }} 
 </div>
 {% endblock %}
