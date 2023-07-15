@@ -10,7 +10,7 @@
                         {{ app.user.email }}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby='dropdownMenuButtonAdmin'>
-                        <li><a class="dropdown-item" href="">Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ path('app_settings_profile') }}">Profile</a></li>
                         <li><a class="dropdown-item" href="{{ path('app_logout')}}">Déconnexion</a></li>
                     </ul>
                 </div> 

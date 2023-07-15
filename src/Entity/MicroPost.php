@@ -55,6 +55,7 @@ class MicroPost
         $this->updatedAt = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
         $this->likedBy = new ArrayCollection();
+        $this->extraPrivacy = false;
     }
 
     public function getId(): ?int

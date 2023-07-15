@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile Image{% endblock %}
+
+{% block bread %}
+→ Profile Image
+{% endblock %}
+
+{% block body %}
+    {{ include('pages/settings_profile/_settings_profile_tabs.html.twig') }}
+
+    <div class="d-flex align-items-center container mt-4">
+        {{ include('shared/_avatar.html.twig', {'size': 150, profile: app.user.userProfile}) }}
+
+        <div class="ml-16 m-4">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'} }) }}
+            {{ form_label(form.profileImage, 'Change', {'label_attr': {'class': 'btn btn-secondary'}}) }}
+            {{ form_widget(form.profileImage, {'attr': {'class': 'd-none'}}) }}
+            {{ form_errors(form.profileImage) }}
+        </div>
+    </div>
+    
+
+    <div class='container'>
+        <button type="submit" class="btn btn-primary btn-block mt-4 mb-2 bg-dark border-dark">Enregistré</button>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

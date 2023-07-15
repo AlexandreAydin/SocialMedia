@@ -16,6 +16,22 @@
 {% block body %}  
     <div class="container mt-4">
 
+      <div class="flex items-center mb-4 container">
+    <div>
+      {{ include('shared/_avatar.html.twig', { profile: post.author.userProfile, size: 60 }) }}
+    </div>
+    <div class="ml-4">
+      <div class="text-xl">
+        {{ post.author.userProfile.name ?? post.author.email }}
+      </div>
+      <div class="">
+        <a href="{{ path('app_profile', { id: post.author.id }) }}">
+          {{ post.author.email }}
+        </a>
+      </div>
+    </div>
+  </div>
+
 		{{ include('pages/micro_post/_post.html.twig', {post: post}) }}
 
 	</div>
@@ -25,7 +41,7 @@
     <div class="my-2">
       <div class="d-flex align-items-center">
         <div class="mr-2">
-          {# {{ include('shared/_avatar.html.twig', { profile: comment.author.userProfile, size: 8 }) }} #}
+          {{ include('shared/_avatar.html.twig', { profile: comment.author.userProfile, size: 60 }) }}
         </div>
         <div>
           <div class="font-weight-medium text-dark">
@@ -37,8 +53,8 @@
         </div>
       </div>
       <div class="d-flex">
-        <div class="ml-4 mr-6 pb-12 border {% if not loop.last %}border-light{% else %}border-0{% endif %}"></div>
-        <div>{{ comment.text }}</div>
+        <div class=" border {% if not loop.last %}border-light{% else %}border-0{% endif %}"></div>
+        <div class='m-4'>{{ comment.text }}</div>
       </div>
     </div>
 	<hr>

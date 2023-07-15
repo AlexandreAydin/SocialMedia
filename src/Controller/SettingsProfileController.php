@@ -53,50 +53,55 @@ class SettingsProfileController extends AbstractController
         );
     }
 
-    // #[Route('/settings/profile-image', name: 'app_settings_profile_image')]
-    // #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    // public function profileImage(
-    //     Request $request,
-    //     SluggerInterface $slugger,
-    //     UserRepository $users
-    // ): Response {
-    //     $form = $this->createForm(ProfileImageType::class);
-    //     /** @var User $user */
-    //     $user = $this->getUser();
-    //     $form->handleRequest($request);
+    #[Route('/settings/profile-image', name: 'app_settings_profile_image')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function profileImage(
+        Request $request,
+        SluggerInterface $slugger,
+        EntityManagerInterface $manager
+    ): Response {
+        $form = $this->createForm(ProfileImageType::class);
+        /** @var User $user */
+        $user = $this->getUser();
+        $form->handleRequest($request);
 
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $profileImageFile = $form->get('profileImage')->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $profileImageFile = $form->get('profileImage')->getData();
 
-    //         if ($profileImageFile) {
-    //             $originalFileName = pathinfo(
-    //                 $profileImageFile->getClientOriginalName(),
-    //                 PATHINFO_FILENAME
-    //             );
-    //             $safeFilename = $slugger->slug($originalFileName);
-    //             $newFileName = $safeFilename . '-' . uniqid() . '.' . $profileImageFile->guessExtension();
+            if ($profileImageFile) {
+                $originalFileName = pathinfo(
+                    $profileImageFile->getClientOriginalName(),
+                    PATHINFO_FILENAME
+                );
+                $safeFilename = $slugger->slug($originalFileName);
+                $newFileName = $safeFilename . '-' . uniqid() . '.' . $profileImageFile->guessExtension();
 
-    //             try {
-    //                 $profileImageFile->move(
-    //                     $this->getParameter('profiles_directory'),
-    //                     $newFileName
-    //                 );
-    //             } catch (FileException $e) {
-    //             }
+                try {
+                    $profileImageFile->move(
+                        $this->getParameter('profiles_directory'),
+                        $newFileName
+                    );
+                } catch (FileException $e) {
+                }
 
-    //             $profile = $user->getUserProfile() ?? new UserProfile();
-    //             $profile->setImage($newFileName);
-    //             $user->setUserProfile($profile);
-    //             $users->add($user, true);
-    //             $this->addFlash('success', 'Votre photo de profil a été mise à jour.');
+                $profile = $user->getUserProfile() ?? new UserProfile();
+                $profile->setImage($newFileName);
+                $user->setUserProfile($profile);
+                $manager->persist($user);
+                $manager->flush();
+                
+                $this->addFlash(
+                    'success',
+                    'Votre photo de profil a été mise à jour.'
+                );
 
-    //             return $this->redirectToRoute('app_settings_profile_image');
-    //         }
-    //     }
+                return $this->redirectToRoute('app_settings_profile_image');
+            }
+        }
 
-    //     return $this->render('pages/settings_profile/profile_image.html.twig',[
-    //             'form' => $form->createView(),
-    //         ]
-    //     );
-    // }
+        return $this->render('pages/settings_profile/profile_image.html.twig',[
+                'form' => $form->createView(),
+            ]
+        );
+    }
 }

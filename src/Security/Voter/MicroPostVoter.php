@@ -35,9 +35,9 @@ class MicroPostVoter extends Voter
         /** @var User $user  */
         $user = $token->getUser();
         // if the user is anonymous, do not grant access
-        // if (!$user instanceof UserInterface) {
-        //     return false;
-        // }
+        if (!$user instanceof UserInterface) {
+            return false;
+        }
         $isAuth = $user instanceof UserInterface;
 
         if ($this->security->isGranted('ROLE_ADMIN')) {
@@ -53,13 +53,13 @@ class MicroPostVoter extends Voter
                         $this->security->isGranted('ROLE_EDITOR')
                     );
             case MicroPost::VIEW:
-                // if (!$subject->isExtraPrivacy()) {
+                if (!$subject->isExtraPrivacy()) {
                     return true;
-                // }
+                }
 
                 return $isAuth &&
                     ($subject->getAuthor()->getId() === $user->getId()
-                        // || $subject->getAuthor()->getFollows()->contains($user)
+                        || $subject->getAuthor()->getFollows()->contains($user)
                     );
         }
 

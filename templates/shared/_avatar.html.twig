@@ -1,0 +1,8 @@
+{% if profile and profile.image %}
+    <img src="{{ profiles ~ profile.image }}"
+         class="img-thumbnail rounded-circle ring-2 ring-light" style="height: {{ size }}px; width: {{ size }}px;">
+{% else %}
+    <div class="bg-secondary rounded-circle text-center" style="height: {{ size }}px; width: {{ size }}px; line-height: {{ size }}px;">
+        <span class="text-white" style="font-size: 3rem;">+</span>
+    </div>
+{% endif %}
